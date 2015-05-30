@@ -18,8 +18,8 @@
  * Whynter A/C ARC-110WD added by Francesco Meschia
  */
 
-#include "IRremote.h"
-#include "IRremoteInt.h"
+#include "IRremote2.h"
+#include "IRremoteInt2.h"
 
 // Provides ISR
 #include <avr/interrupt.h>

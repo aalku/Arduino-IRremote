@@ -59,18 +59,18 @@ public:
 };
 
 // Send types
-#define IRsendNEC
-#define IRsendSONY
-#define IRsendRC5
-#define IRsendRC6
-#define IRsendDISH
-#define IRsendSHARP
-#define IRsendPANASONIC
-#define IRsendJVC
-#define IRsendSANYO
-#define IRsendMITSUBISHI
-#define IRsendSAMSUNG
-#define IRsendRAW
+#define SEND_NEC
+#define SEND_SONY
+#define SEND_RC5
+#define SEND_RC6
+#define SEND_DISH
+#define SEND_SHARP
+#define SEND_PANASONIC
+#define SEND_JVC
+#define SEND_SANYO
+#define SEND_MITSUBISHI
+#define SEND_SAMSUNG
+#define SEND_RAW
 
 // Decoded value for NEC when a repeat code is received
 #define REPEAT 0xffffffff
@@ -167,8 +167,6 @@ public:
 #ifdef SEND_SHARP
   void sendSharp(unsigned int address, unsigned int command);
   void sendSharpRaw(unsigned long data, int nbits);
-#endif
-#ifdef SEND_IRsendSHARP
   void sendSharp(unsigned long data, int nbits);
 #endif
 #ifdef SEND_PANASONIC
