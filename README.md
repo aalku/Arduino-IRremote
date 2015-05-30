@@ -1,4 +1,3 @@
-NOTE: THIS NEEDS TO BE FIXED.... PLEASE JUST USE THE LATEST RELEASE AND NOT THE MASTER BRANCH!!!!
 # IRremote Arduino Library
 This library enables you to send and receive using infra-red signals on an arduino.
 
@@ -13,6 +12,7 @@ Check [here](http://shirriff.github.io/Arduino-IRremote/) for tutorials and more
 4. Move the "IRremote" folder that has been extracted to your libraries directory.
 
 ## Usage
+
 We get a lot of support for different device types. To keep the size of the library manageable we're moving to a model where different device types use a #define statement, for instance:
 
 ```#define SHARP```
