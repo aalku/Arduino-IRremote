@@ -23,7 +23,7 @@
 // TEST must be defined for the IRtest unittests to work.  It will make some
 // methods virtual, which will be slightly slower, which is why it is optional.
 //#define DEBUG
-// #define TEST
+//#define TEST
 
 enum decode_type_t {
   NEC = 1,
@@ -71,6 +71,20 @@ public:
 #define SEND_MITSUBISHI
 #define SEND_SAMSUNG
 #define SEND_RAW
+
+// Decode types
+#define DECODE_NEC
+#define DECODE_SONY
+#define DECODE_RC5
+#define DECODE_RC6
+#define DECODE_DISH
+#define DECODE_SHARP
+#define DECODE_PANASONIC
+#define DECODE_JVC
+#define DECODE_SANYO
+#define DECODE_MITSUBISHI
+#define DECODE_SAMSUNG
+
 
 // Decoded value for NEC when a repeat code is received
 #define REPEAT 0xffffffff
@@ -188,7 +202,7 @@ public:
 
 // Some useful constants
 
-#define USECPERTICK 50  // microseconds per clock interrupt tick
+#define USECPERTICK 30  // microseconds per clock interrupt tick
 #define RAWBUF 100 // Length of raw duration buffer
 
 // Marks tend to be 100us too long, and spaces 100us too short

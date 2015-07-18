@@ -45,7 +45,7 @@
 #elif defined(__AVR_ATmega32U4__)
   //#define IR_USE_TIMER1   // tx = pin 14
   //#define IR_USE_TIMER3   // tx = pin 9
-  #define IR_USE_TIMER4_HS  // tx = pin 13
+  #define IR_USE_TIMER4_HS  // tx = pin 10
 
 // Teensy 3.0
 #elif defined(__MK20DX128__)
@@ -190,21 +190,7 @@
 #define SHARP_BITS 15
 #define DISH_BITS 16
 
-// AIWA RC T501
-// Lirc file http://lirc.sourceforge.net/remotes/aiwa/RC-T501 
-#define AIWA_RC_T501_HZ 38
-#define AIWA_RC_T501_BITS 15
-#define AIWA_RC_T501_PRE_BITS 26
-#define AIWA_RC_T501_POST_BITS 1
-#define AIWA_RC_T501_SUM_BITS AIWA_RC_T501_PRE_BITS+AIWA_RC_T501_BITS+AIWA_RC_T501_POST_BITS
-#define AIWA_RC_T501_HDR_MARK 8800
-#define AIWA_RC_T501_HDR_SPACE 4500
-#define AIWA_RC_T501_BIT_MARK 500
-#define AIWA_RC_T501_ONE_SPACE 600
-#define AIWA_RC_T501_ZERO_SPACE 1700
-
-
-#define TOLERANCE 50  // percent tolerance in measurements
+#define TOLERANCE 25  // percent tolerance in measurements
 #define LTOL (1.0 - TOLERANCE/100.) 
 #define UTOL (1.0 + TOLERANCE/100.) 
 
@@ -303,8 +289,8 @@ extern volatile irparams_t irparams;
 #define TIMER_ENABLE_PWM     (TCCR1A |= _BV(COM1A1))
 #define TIMER_DISABLE_PWM    (TCCR1A &= ~(_BV(COM1A1)))
 #if defined(__AVR_ATmega8P__) || defined(__AVR_ATmega8__)
-  #define TIMER_ENABLE_INTR    (TIMSK |= _BV(OCIE1A))
-  #define TIMER_DISABLE_INTR   (TIMSK &= ~_BV(OCIE1A))
+  #define TIMER_ENABLE_INTR    (TIMSK = _BV(OCIE1A))
+  #define TIMER_DISABLE_INTR   (TIMSK = 0)
 #else
   #define TIMER_ENABLE_INTR    (TIMSK1 = _BV(OCIE1A))
   #define TIMER_DISABLE_INTR   (TIMSK1 = 0)
@@ -367,14 +353,14 @@ extern volatile irparams_t irparams;
 // defines for timer4 (10 bits, high speed option)
 #elif defined(IR_USE_TIMER4_HS)
 #define TIMER_RESET
-#define TIMER_ENABLE_PWM     (TCCR4A |= _BV(COM4B1))
-#define TIMER_DISABLE_PWM    (TCCR4A &= ~(_BV(COM4B1)))
+#define TIMER_ENABLE_PWM     (TCCR4A |= _BV(COM4A1))
+#define TIMER_DISABLE_PWM    (TCCR4A &= ~(_BV(COM4A1)))
 #define TIMER_ENABLE_INTR    (TIMSK4 = _BV(TOIE4))
 #define TIMER_DISABLE_INTR   (TIMSK4 = 0)
 #define TIMER_INTR_NAME      TIMER4_OVF_vect
 #define TIMER_CONFIG_KHZ(val) ({ \
   const uint16_t pwmval = SYSCLOCK / 2000 / (val); \
-  TCCR4A = (1<<PWM4B); \
+  TCCR4A = (1<<PWM4A); \
   TCCR4B = _BV(CS40); \
   TCCR4C = 0; \
   TCCR4D = (1<<WGM40); \
@@ -382,7 +368,7 @@ extern volatile irparams_t irparams;
   TC4H = pwmval >> 8; \
   OCR4C = pwmval; \
   TC4H = (pwmval / 3) >> 8; \
-  OCR4B = (pwmval / 3) & 255; \
+  OCR4A = (pwmval / 3) & 255; \
 })
 #define TIMER_CONFIG_NORMAL() ({ \
   TCCR4A = 0; \
@@ -395,13 +381,14 @@ extern volatile irparams_t irparams;
   TC4H = 0; \
   TCNT4 = 0; \
 })
-#if defined(CORE_OC4B_PIN)
-#define TIMER_PWM_PIN        CORE_OC4B_PIN  /* Teensy */
+#if defined(CORE_OC4A_PIN)
+#define TIMER_PWM_PIN        CORE_OC4A_PIN  /* Teensy */
 #elif defined(__AVR_ATmega32U4__)
-#define TIMER_PWM_PIN        10  /* Leonardo */
+#define TIMER_PWM_PIN        13  /* Leonardo */
 #else
-#error "Please add OC4B pin number here\n"
+#error "Please add OC4A pin number here\n"
 #endif
+
 
 // defines for timer4 (16 bits)
 #elif defined(IR_USE_TIMER4)
